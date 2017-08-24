@@ -20,3 +20,9 @@ Route::post('/api/v1/userprofil', 'UserProfilCtrl@store');
 
 Route::post('/api/v1/fileUpload', 'uploadFileCtrl@store');
 
+
+Route::post('/api/v1/driverProfil', 'DriverCtrl@store');
+
+
+Route::post('/api/v1/getDriverId', 'DriverCtrl@getDriverId');
+

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\UsersProfilsModel;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use \Illuminate\Support\Facades\Response;
 
 use App\Http\Requests;
 
@@ -20,7 +21,7 @@ class UserProfilCtrl extends Controller
                 'sexe' => $request->input('sexe')
             ]);
 
-            return \Illuminate\Support\Facades\Response::json($userProfil, 200, [], JSON_NUMERIC_CHECK) . 'response code :' . http_response_code();
+            return Response::json($userProfil, 200, [], JSON_NUMERIC_CHECK) . 'response code :' . http_response_code();
 
         } catch (\Exception $e) {
              $errorMessage = $e->getMessage();
@@ -29,6 +30,5 @@ class UserProfilCtrl extends Controller
              return 'Error occured with message :"' . $errorMessage . '" and code : "' . $errorCode . '"';
 
         }
-
     }
 }
