@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use App\driver;
 
@@ -11,19 +12,24 @@ class DriverCtrl extends Controller
 
     public function store(Request $request)
     {
+
         $duplicateDrive = driver::where('email', $request->input('email'))->first();
 
         if ($duplicateDrive["email"] == $request->input('email')) {
-            return Response::json('emailAlready used', 403, [], JSON_NUMERIC_CHECK);
+            return json_encode(['statuCode' => 403, 'data' => 'email already used']);
         }else{
             try {
-                $driverProfil = driver::create([
-                    'firstname' => $request->input('firstname'),
-                    'lastname' => $request->input('lastname'),
-                    'email' => $request->input('email')
-                ]);
+                $driver = new driver;
+                $driver->firstname = $request->input('firstname');
+                $driver->lastname = $request->input('lastname');
+                $driver->email = $request->input('email');
+                $driver->status = 1;
+                $driver->save();
 
-                return Response::json($driverProfil, 200, [], JSON_NUMERIC_CHECK) . 'response code :' . http_response_code();
+                $driverId = $driver->id;
+
+                return json_encode(['statuCode' => 200, 'data' => 'driver added', 'driverId' => $driverId]);
+
 
             } catch (\Exception $e) {
                 $errorMessage = $e->getMessage();
@@ -35,10 +41,16 @@ class DriverCtrl extends Controller
         }
     }
 
-    public function getDriverId(Request $request){
+    public function getDriverStatus(Request $request){
         $emailInput = $request->input('email');
-        $driverId = DB::table('drivers')->where('email',$emailInput )->value('email');
-        return $driverId;
+        $driverStatu = driver::where('email', $emailInput)->first();
+        return json_encode(['StatuCode' => 200, 'driverData' => $driverStatu]);
+    }
+
+    public function returnDriverProfil(Request $request){
+        $dataFromAdminSystem = $request->input('dataFromAdminSystem');
+        $driverStatu = driver::where('email', $dataFromAdminSystem)->orWhere('id', $dataFromAdminSystem)->first();
+        return json_encode($driverStatu);
     }
 
 }

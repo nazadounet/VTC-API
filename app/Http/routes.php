@@ -1,5 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: http://127.0.0.1:8000/');
+header('Access-Control-Allow-Origin: http://127.0.0.1:8080/');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -23,6 +24,10 @@ Route::post('/api/v1/fileUpload', 'uploadFileCtrl@store');
 
 Route::post('/api/v1/driverProfil', 'DriverCtrl@store');
 
+Route::post('/api/v1/getDriverStatus', 'DriverCtrl@getDriverStatus');
 
-Route::post('/api/v1/getDriverId', 'DriverCtrl@getDriverId');
+Route::post('/api/v1/getDriverProfil', 'DriverCtrl@returnDriverProfil');
+
+Route::post('/api/v1/contact', 'email_controller@contactFormWebsite');
+
 

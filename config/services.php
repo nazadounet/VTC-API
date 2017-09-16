@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('tictak.com'),
+        'secret' => env('key-8225caf7755975b0200c47ccfa4b6139'),
     ],
 
     'ses' => [

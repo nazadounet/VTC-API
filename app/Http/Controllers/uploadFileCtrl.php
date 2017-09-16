@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\driver;
 use App\UsersProfilsModel;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
@@ -16,10 +17,12 @@ class uploadFileCtrl extends Controller
 
     public function store(Request $request)
     {
+        $driverFile = [];
         if($request->hasFile('VTCCard', 'driveCard')){
 
             $driverId = $request->input('id');
             $fileArray = $request->allFiles();
+
             foreach ($fileArray as $file){
                 $fileKey = array_keys($fileArray, $file);
                 $fileName = $driverId . '-' . $fileKey[0] . '.' . $file[0]->getClientOriginalExtension();
@@ -28,44 +31,33 @@ class uploadFileCtrl extends Controller
 
                 switch ($fileKey[0]) {
                     case "VTCCard":
-                        DB::table('drivers')
-                            ->where('id', 1)
-                            ->update(["VTCCard" => $path]);
-                        echo 'VTCCard path added';
+                        driver::where('id', $driverId)
+                                ->update(["VTCCard" => $path]);
                         break;
                     case "IDCard":
-                        DB::table('drivers')
-                            ->where('id', 1)
-                            ->update(["IDCard" => $path]);
-                        echo 'IDCard path added';
+                        driver::where('id', $driverId)
+                                ->update(["IDCard" => $path]);
                         break;
                     case "driveCard":
-                        DB::table('drivers')
-                            ->where('id', 1)
-                            ->update(["driveCard" => $path]);
-                        echo 'driveCard path added';
+                        driver::where('id', $driverId)
+                                ->update(["driveCard" => $path]);
                         break;
                     case "civilInsurance":
-                        DB::table('drivers')
-                            ->where('id', 1)
-                            ->update(["civilInsurance" => $path]);
-                        echo 'civilInsurance path added';
+                        driver::where('id', $driverId)
+                                ->update(["civilInsurance" => $path]);
                         break;
                     case "atoutFrance":
-                        DB::table('drivers')
-                            ->where('id', 1)
-                            ->update(["atoutFrance" => $path]);
-                        echo 'atoutFrance path added';
+                        driver::where('id', $driverId)
+                                ->update(["atoutFrance" => $path]);
                         break;
                     case "KBIS":
-                        DB::table('drivers')
-                            ->where('id', 1)
-                            ->update(["KBIS" => $path]);
-                        echo 'KBIS path added';
+                        driver::where('id', $driverId)
+                                ->update(["KBIS" => $path]);
                         break;
-
                 }
             };
+        driver::where('id', $driverId)->update(["status" => 1]);
+        return ["statuCode" => 200, "message" => "All file's path added", "driver's status = 1"];
         }
     }
 
